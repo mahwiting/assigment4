@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Stack Development Course</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="course-card">
+            <div class="ribbon-container">
+                <div class="ribbon">Enrolled</div>
+            </div>
+            <h1 class="course-title">Full Stack Web Development - Fundamental</h1>
+            <img src="pic3.jpg" alt="Course Preview" class="img-fluid">
+            <p class="course-description">
+                In the software engineering work environment, full-stack developers are valued for their software skills.
+            </p>
+            <div class="course-meta">
+                <span>8 Topics</span>
+                <span> | </span>
+                <span>0 Notifications</span>
+            </div>
+            <div class="user-profile-container">
+                <p class="user-title">Users:</p>
+                <div class="user-profiles">
+                    <img src="pic1.jpg" alt="User 1">
+                    <img src="pic2.jpg" alt="User 2">
+                </div>
+            </div>
+            <div class="course-footer">
+                <div class="category">
+                    <strong>Category:</strong> <span>Programming</span>
+                </div>
+                <div class="open-course">Open Course</div>
+            </div>
+        </div>
+
+        <!-- Form to Add Article -->
+        <form action="add_article.php" method="POST" class="mt-4">
+            <div class="form-group">
+                <input type="text" name="title" class="form-control" placeholder="Title" required>
+            </div>
+            <div class="form-group">
+                <textarea name="content" class="form-control" placeholder="Content" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Article</button>
+        </form>
+
+        <!-- Display Articles and Comments -->
+        <?php
+        $conn = new mysqli('localhost', 'username', 'password', 'blog_db');
+        $result = $conn->query("SELECT * FROM articles");
+
+       fetch_assoc()) {
+            echo "<div class='article mt-4'>";
+            echo "<h2>{$row['title']}</h2>";
+            echo "<p>{$row['content']}</p>";
+
+            $comments = $conn->query("SELECT * FROM comments WHERE article_id = {$row['id']}");
+            while ($comment = $comments->fetch_assoc()) {
+                echo "<div class='comment'>";
+                echo "<p>{$comment['content']}</p>";
+                echo "</div>";
+            }
+
+            echo "<form action='add_comment.php' method='POST' class='mt-2'>";
+            echo "<input type='hidden' name='article_id' value='{$row['id']}'>";
+            echo "<div class='form-group'>";
+            echo "<textarea name='content' class='form-control' placeholder='Add a comment'></textarea>";
+            echo "</div>";
+            echo "<button type='submit' class='btn btn-secondary'>Add Comment</button>";
+            echo "</form>";
+
+            echo "</div>";
+        }
+
+        $conn->close();
+        ?>
+    </div>
+</body>
+</html>
